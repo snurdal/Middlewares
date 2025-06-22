@@ -26,21 +26,18 @@ namespace Middlewares.Extensions
 
                 // Content-Security-Policy
                 // Helps prevent a variety of attacks such as cross-site scripting (XSS) and data injection attacks.
-                context.Response.Headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;";
+                context.Response.Headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' ; font-src 'self' ; connect-src 'self'";
 
                 await next();
             });
             return app;
         }
 
-        public static IApplicationBuilder UseStrictTransportSecurity(this IApplicationBuilder app, int MaxAgeInSeconds = 31536000, bool includeSubDomain = true, bool preload = false)
+        public static IApplicationBuilder UseStrictTransportSecurity(this IApplicationBuilder app, int maxAgeInSeconds = 31536000, bool includeSubDomains = true, bool preload = false)
         {
             app.Use(async (context, next) =>
             {
-                context.Response.Headers
-                ["Strict-Transport-Security"] = $"max-age={MaxAgeInSeconds}"  +
-                (includeSubDomain ? "; includeSubDomains" : "") +
-                 (preload ? "; preload" : "");
+                context.Response.Headers["Strict-Transport-Security"] = $"max-age={maxAgeInSeconds}; {(includeSubDomains ? "includeSubDomains; " : "")}{(preload ? "preload" : "")}";
                 await next();
 
             });
@@ -70,7 +67,7 @@ namespace Middlewares.Extensions
 
                 // Access-Control-Allow-Methods
                 // Specifies which HTTP methods are allowed when accessing the resource.
-                context.Response.Headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS";
+                context.Response.Headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE";
 
                 // Access-Control-Allow-Headers
                 // Specifies which headers can be used when making the actual request.

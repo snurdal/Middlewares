@@ -29,7 +29,7 @@
 
                 switch (ex)
                 {
-                    case UnauthorizedAccessException _:
+                    case UnauthorizedAccessException :
                         statusCode = StatusCodes.Status401Unauthorized;
                         break;
                     case ArgumentException :

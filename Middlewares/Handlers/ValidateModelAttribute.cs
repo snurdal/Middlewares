@@ -7,7 +7,7 @@ namespace Middlewares.Handlers
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            if(context.ModelState.IsValid)
+            if(!context.ModelState.IsValid)
             {
                 var errors = context.ModelState
                     .Where(e => e.Value.Errors.Count > 0)
